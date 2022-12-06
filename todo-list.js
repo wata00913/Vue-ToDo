@@ -5,7 +5,7 @@ export default {
     ToDo,
   },
   setup() {
-    const message = ref("");
+    const message = ref({ text: "", colorType: "normal"});
 
     const rawDataStr = window.localStorage.getItem("todoList");
     const todoList = ref(rawDataStr ? JSON.parse(rawDataStr) : []);
@@ -14,27 +14,31 @@ export default {
 
     function onCreateToDo() {
       if (!newContent.value) {
-        message.value = { content: "未入力です", colorType: "error" };
+        message.value = { text: "入力欄が未記入のためToDoを新規作成できません。", colorType: "error" };
         return;
       }
       todoList.value.push({ content: newContent });
       save(todoList.value);
+      message.value = { text: "ToDoを新規作成しました。", colorType: "normal" };
     }
 
     function edit(content, idx) {
       todoList.value.splice(idx, 1, { content: content });
       save(todoList.value);
+      message.value = { text: "ToDoを編集しました。", colorType: "normal" };
     }
 
     function destroy(idx) {
       todoList.value.splice(idx, 1);
       save(todoList.value);
+      message.value = { text: "ToDoを削除しました。", colorType: "normal" };
     }
 
     function save(todoList) {
       window.localStorage.setItem("todoList", JSON.stringify(todoList));
     }
     return {
+      message,
       newContent,
       todoList,
       onCreateToDo,
@@ -43,6 +47,7 @@ export default {
     };
   },
   template: `
+    <p :class="message.colorType"> {{ message.text }} </p>
     <to-do v-for="(todo, idx) in todoList"
       :content="todo.content"
       @edit="(editedContent) => edit(editedContent, idx)"
