@@ -10,8 +10,9 @@
   </body>
   <script type="module">
     import { createApp } from "https://unpkg.com/vue@3/dist/vue.esm-browser.js";
-    import ToDo from "./todo.js"
+    import ToDoList from "./todo-list.js"
 
-    createApp(ToDo).mount("#app");
+    const app = createApp(ToDoList)
+    app.mount("#app");
   </script>
 </html>
