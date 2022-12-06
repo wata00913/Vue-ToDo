@@ -16,15 +16,27 @@ export default {
       }
       todoList.value.push({ content: newContent });
     }
+
+    function edit(content, idx) {
+      todoList.value.splice(idx, 1, { content: content });
+    }
+
+    function destroy(idx) {
+      todoList.value.splice(idx, 1);
+    }
     return {
       newContent,
       todoList,
       onCreateToDo,
+      edit,
+      destroy,
     };
   },
   template: `
-    <to-do v-for="todo in todoList"
+    <to-do v-for="(todo, idx) in todoList"
       :content="todo.content"
+      @edit="(editedContent) => edit(editedContent, idx)"
+      @destroy="destroy(idx)"
     />
     <div>
       <input type="text" id="name" name="name" v-model="newContent">

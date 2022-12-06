@@ -1,9 +1,10 @@
 import { ref } from "https://unpkg.com/vue@3/dist/vue.esm-browser.js";
 export default {
+  emits: ['edit', 'destroy'],
   props: {
     content: String
   },
-  setup(props) {
+  setup(props, ctx) {
     const newContent = ref(props.content)
     const isEditing = ref(false)
 
@@ -11,10 +12,17 @@ export default {
       newContent.value = props.content
       isEditing.value = !isEditing.value
     }
+
+    function edit() {
+      ctx.emit('edit', newContent.value);
+      toggleEditMode();
+    }
+
     return {
       newContent,
       isEditing,
-      toggleEditMode
+      toggleEditMode,
+      edit
     }
   },
   template: `
@@ -26,7 +34,7 @@ export default {
     <div v-else>
       {{content}} 
       <button type="button" @click="toggleEditMode" >編集</button> |
-      <button type="button" @click="destroy" >削除</button>
+      <button type="button" @click="$emit('destroy')" >削除</button>
     </div>
   `
 }
