@@ -1,34 +1,35 @@
 import { ref } from "https://unpkg.com/vue@3/dist/vue.esm-browser.js";
 export default {
-  emits: ["edit", "destroy"],
+  emits: ["update", "destroy"],
   props: {
     content: String,
+    required: true,
   },
   setup(props, ctx) {
-    const newContent = ref(props.content);
+    const editingContent = ref(props.content);
     const isEditing = ref(false);
 
     function toggleEditMode() {
-      newContent.value = props.content;
+      editingContent.value = props.content;
       isEditing.value = !isEditing.value;
     }
 
-    function edit() {
-      ctx.emit("edit", newContent.value);
+    function update() {
+      ctx.emit("update", editingContent.value);
       toggleEditMode();
     }
 
     return {
-      newContent,
+      editingContent,
       isEditing,
       toggleEditMode,
-      edit,
+      update,
     };
   },
   template: `
     <div v-if="isEditing">
-      <input type="text" v-model="newContent">
-      <button type="button" @click="edit" >更新</button> |
+      <input type="text" v-model="editingContent">
+      <button type="button" @click="update" >更新</button> |
       <button type="button" @click="toggleEditMode" >キャンセル</button>
     </div>
     <div v-else>

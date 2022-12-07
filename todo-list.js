@@ -12,7 +12,7 @@ export default {
 
     const newContent = ref("");
 
-    function onCreateToDo() {
+    function create() {
       if (!newContent.value) {
         message.value = {
           text: "入力欄が未記入のためToDoを新規作成できません。",
@@ -26,7 +26,7 @@ export default {
       message.value = { text: "ToDoを新規作成しました。", colorType: "normal" };
     }
 
-    function edit(content, idx) {
+    function update(content, idx) {
       todoList.value.splice(idx, 1, { content: content });
       save(todoList.value);
       message.value = { text: "ToDoを編集しました。", colorType: "normal" };
@@ -45,8 +45,8 @@ export default {
       message,
       newContent,
       todoList,
-      onCreateToDo,
-      edit,
+      create,
+      update,
       destroy,
     };
   },
@@ -54,12 +54,12 @@ export default {
     <p :class="message.colorType"> {{ message.text }} </p>
     <to-do v-for="(todo, idx) in todoList"
       :content="todo.content"
-      @edit="(editedContent) => edit(editedContent, idx)"
+      @update="(editedContent) => update(editedContent, idx)"
       @destroy="destroy(idx)"
     />
     <div>
       <input type="text" id="name" name="name" v-model="newContent">
-      <button type="button" @click="onCreateToDo" >新規作成</button>
+      <button type="button" @click="create" >新規作成</button>
     </div>
   `,
 };
