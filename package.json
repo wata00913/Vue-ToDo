@@ -1,6 +1,9 @@
 {
   "name": "vue-todo",
   "devDependencies": {
-    "http-server": "^14.1.1"
+    "eslint": "^8.29.0",
+    "eslint-config-prettier": "^8.5.0",
+    "http-server": "^14.1.1",
+    "prettier": "^2.8.0"
   }
 }
