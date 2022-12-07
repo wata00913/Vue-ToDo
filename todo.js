@@ -2,7 +2,7 @@ import { ref } from "https://unpkg.com/vue@3/dist/vue.esm-browser.js";
 export default {
   emits: ["edit", "destroy"],
   props: {
-    content: String
+    content: String,
   },
   setup(props, ctx) {
     const newContent = ref(props.content);
@@ -22,7 +22,7 @@ export default {
       newContent,
       isEditing,
       toggleEditMode,
-      edit
+      edit,
     };
   },
   template: `
@@ -36,5 +36,5 @@ export default {
       <button type="button" @click="toggleEditMode" >編集</button> |
       <button type="button" @click="$emit('destroy')" >削除</button>
     </div>
-  `
+  `,
 };

@@ -5,7 +5,7 @@ export default {
     ToDo,
   },
   setup() {
-    const message = ref({ text: "", colorType: "normal"});
+    const message = ref({ text: "", colorType: "normal" });
 
     const rawDataStr = window.localStorage.getItem("todoList");
     const todoList = ref(rawDataStr ? JSON.parse(rawDataStr) : []);
@@ -14,7 +14,10 @@ export default {
 
     function onCreateToDo() {
       if (!newContent.value) {
-        message.value = { text: "入力欄が未記入のためToDoを新規作成できません。", colorType: "error" };
+        message.value = {
+          text: "入力欄が未記入のためToDoを新規作成できません。",
+          colorType: "error",
+        };
         return;
       }
       todoList.value.push({ content: newContent });
