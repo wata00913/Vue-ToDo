@@ -20,8 +20,9 @@ export default {
         };
         return;
       }
-      todoList.value.push({ content: newContent });
+      todoList.value.push({ content: newContent.value });
       save(todoList.value);
+      newContent.value = "";
       message.value = { text: "ToDoを新規作成しました。", colorType: "normal" };
     }
 
