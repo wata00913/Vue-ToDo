@@ -20,14 +20,23 @@ export default {
         };
         return;
       }
-      todoList.value.push({ content: newContent.value });
+
+      const maxId =
+        todoList.value.length === 0
+          ? 1
+          : Math.max(...todoList.value.map((todo) => todo.id)) + 1;
+      todoList.value.push({
+        id: maxId,
+        content: newContent.value,
+      });
       save(todoList.value);
       newContent.value = "";
       message.value = { text: "ToDoを新規作成しました。", colorType: "normal" };
     }
 
     function update(content, idx) {
-      todoList.value.splice(idx, 1, { content: content });
+      const id = todoList.value[idx].id;
+      todoList.value.splice(idx, 1, { id: id, content: content });
       save(todoList.value);
       message.value = { text: "ToDoを編集しました。", colorType: "normal" };
     }
@@ -52,7 +61,7 @@ export default {
   },
   template: `
     <p :class="message.colorType"> {{ message.text }} </p>
-    <to-do v-for="(todo, idx) in todoList"
+    <to-do v-for="(todo, idx) in todoList" :key="todo.id"
       :content="todo.content"
       @update="(editedContent) => update(editedContent, idx)"
       @destroy="destroy(idx)"
